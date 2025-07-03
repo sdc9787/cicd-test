@@ -2,6 +2,24 @@ name: first workflow
 on: push
 jobs:
   # job 이름
+  # npm run lint
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: install nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: run lint
+        run: npm run lint
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -12,6 +30,11 @@ jobs:
       # 노드 버전을 맞춰야할 경우에 가상환경에 노드를 추가 설치
       - name: install nodejs
         uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
       - name: install deps
         run: npm ci # ci -> clean install -> package-lock.json
+
+      - name: run build
+        run: npm run build
