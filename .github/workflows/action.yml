@@ -1,11 +1,17 @@
-# 워크플로우 -> 자동화 할 작업의 설계서 -> action.yml
-#
-
 name: first workflow
-on: push # 이벤트 트리거
-jobs: # jobs:
-  hello_world: # job의 이름
+on: push
+jobs:
+  # job 이름
+  build:
     runs-on: ubuntu-latest
-    steps: # step 정의
-      - name: Hello World # step의 이름
-        run: echo "Hello, World!" # run : <cli 명령어>
+    steps:
+      # 레포지토리 -> 가상환경으로 코드 가져오기
+      - name: Checkout Code
+        uses: actions/checkout@v4 # actions -> 재사용가능한 작업
+
+      # 노드 버전을 맞춰야할 경우에 가상환경에 노드를 추가 설치
+      - name: install nodejs
+        uses: actions/setup-node@v4
+
+      - name: install deps
+        run: npm ci # ci -> clean install -> package-lock.json
